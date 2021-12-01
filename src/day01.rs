@@ -11,11 +11,11 @@ pub fn day01() -> Result<()> {
 
 pub fn day01_part01() -> Result<()> {
     let mut file = include_str!("../input/day01/input01.txt").lines();
-    let mut previous = file.next().unwrap().parse::<i32>()?;
-    let mut larger_count = 0;
+    let mut previous = file.next().unwrap().parse::<u16>()?;
+    let mut larger_count:u16 = 0;
 
     for line in file {
-        let line = line.parse::<i32>()?;
+        let line = line.parse::<u16>()?;
         if line > previous {
             larger_count += 1;
         }
@@ -34,12 +34,12 @@ pub fn day01_part02() -> Result<()> {
     let file = include_str!("../input/day01/input01.txt").lines();
 
     
-    let mut queue = FixSizeQueue::<i32, {3 as usize}>::new();
-    let mut previous: Option<i32> = None;
+    let mut queue = FixSizeQueue::<u16, {3 as usize}>::new();
+    let mut previous: Option<u16> = None;
     let mut larger_count = 0;
 
     for line in file {
-        let line = line.parse::<i32>()?;
+        let line = line.parse::<u16>()?;
         queue.push(line);
         if let Some(sum) = queue.sum() {
             match previous {
