@@ -67,6 +67,8 @@ mod part02 {
         Ok(())
     }
 
+    // I discovered the array_windows function
+    // and wanted to use it here for reference
     pub fn run_bis() -> Result<()> {
         let file = include_str!("../input/day01/input.txt").lines();
 

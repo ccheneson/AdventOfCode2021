@@ -4,6 +4,7 @@ use anyhow::Result;
 pub fn run() -> Result<()> {
     part01::run()?;
     part02::run()?;
+    part02::run_bis();
     Ok(())
 }
 
@@ -140,6 +141,38 @@ mod part02 {
                 });
 
         println!("What do you get if you multiply your final horizontal position by your final depth? {:?}", tracker.result());
+
+        Ok(())
+    }
+
+
+    // This is another implementation without any struct to manage the calculation
+    // It also demonstrates the pattern matching with slice
+    pub fn run_bis() -> Result<()> {
+
+        fn parse(line: &str) -> Vec<&str> {
+            line.split_whitespace().collect()
+        }
+
+
+        let lines = include_str!("../input/day02/input.txt").lines();
+
+        //accumulator is tuple3( position, depth, aim)
+        let tracker =
+            lines
+                .fold((0,0,0), | acc, element| {
+                    match parse(element).as_slice() {                        
+                        &["down", value] => (acc.0, acc.1, acc.2 + value.parse::<i32>().unwrap()),
+                        &["up", value] => (acc.0, acc.1, acc.2 - value.parse::<i32>().unwrap()),
+                        &["forward", value] => {
+                            let value_i32 = value.parse::<i32>().unwrap();
+                            (acc.0 + value_i32, acc.1 + acc.2 * value_i32, acc.2)
+                        },
+                        _ => panic!("Unknown command {}", element),
+                    }
+                });
+
+        println!("What do you get if you multiply your final horizontal position by your final depth - part2 bis ? {:?}", tracker.0 * tracker.1);
 
         Ok(())
     }
