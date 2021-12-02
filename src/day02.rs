@@ -7,8 +7,33 @@ pub fn run() -> Result<()> {
     Ok(())
 }
 
+
+enum Commands {
+    FORWARD(u32),
+    DOWN(u32),
+    UP(u32),
+}
+
+fn line_parser(line: &str) -> Result<Commands> {
+    let tokens: Vec<&str> = line.trim().split_whitespace().collect();
+    if let (Some(command), Some(value)) = (tokens.get(0), tokens.get(1)) {
+        let value = value.parse::<u32>()?;
+        match *command {
+            "forward" => Ok(Commands::FORWARD(value)),
+            "down" => Ok(Commands::DOWN(value)),
+            "up" => Ok(Commands::UP(value)),
+            _ => Err(anyhow::anyhow!("Could not parse line '{}'", line)),
+        }
+    } else {
+        Err(anyhow::anyhow!("Invalid number of token '{}'", line))
+    }
+}
+
+
 mod part01 {
     use anyhow::Result;
+    use crate::day02::line_parser;
+    use super::Commands;
 
     #[derive(Debug)]
     struct Tracker {
@@ -16,11 +41,6 @@ mod part01 {
         depth: u32,
     }
 
-    enum Commands {
-        FORWARD(u32),
-        DOWN(u32),
-        UP(u32),
-    }
 
     impl Tracker {
         fn new() -> Self {
@@ -40,21 +60,6 @@ mod part01 {
 
         fn result(&self) -> u32 {
             self.depth as u32 * self.position as u32
-        }
-    }
-
-    fn line_parser(line: &str) -> Result<Commands> {
-        let tokens: Vec<&str> = line.trim().split_whitespace().collect();
-        if let (Some(command), Some(value)) = (tokens.get(0), tokens.get(1)) {
-            let value = value.parse::<u32>()?;
-            match *command {
-                "forward" => Ok(Commands::FORWARD(value)),
-                "down" => Ok(Commands::DOWN(value)),
-                "up" => Ok(Commands::UP(value)),
-                _ => Err(anyhow::anyhow!("Could not parse line '{}'", line)),
-            }
-        } else {
-            Err(anyhow::anyhow!("Invalid number of token '{}'", line))
         }
     }
 
@@ -81,18 +86,14 @@ mod part01 {
 
 mod part02 {
     use anyhow::Result;
+    use crate::day02::line_parser;
+    use super::Commands;
 
     #[derive(Debug)]
     struct Tracker {
         position: u32,
         depth: u32,
         aim: u32
-    }
-
-    enum Commands {
-        FORWARD(u32),
-        DOWN(u32),
-        UP(u32),        
     }
 
     impl Tracker {
@@ -121,21 +122,6 @@ mod part02 {
 
         fn result(&self) -> u32 {
             self.depth as u32 * self.position as u32
-        }
-    }
-
-    fn line_parser(line: &str) -> Result<Commands> {
-        let tokens: Vec<&str> = line.trim().split_whitespace().collect();
-        if let (Some(command), Some(value)) = (tokens.get(0), tokens.get(1)) {
-            let value = value.parse::<u32>()?;
-            match *command {
-                "forward" => Ok(Commands::FORWARD(value)),
-                "down" => Ok(Commands::DOWN(value)),
-                "up" => Ok(Commands::UP(value)),
-                _ => Err(anyhow::anyhow!("Could not parse line '{}'", line)),
-            }
-        } else {
-            Err(anyhow::anyhow!("Invalid number of token '{}'", line))
         }
     }
 
