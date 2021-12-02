@@ -2,7 +2,7 @@ use std::{collections::VecDeque, iter::Sum};
 
 use anyhow::Result;
 
-pub fn day01() -> Result<()> {
+pub fn run() -> Result<()> {
     day01_part01()?;
     day01_part02()?;
     day01_part02_bis()?;
@@ -10,11 +10,11 @@ pub fn day01() -> Result<()> {
 }
 
 pub fn day01_part01() -> Result<()> {
-    let mut file = include_str!("../input/day01/input01.txt").lines();
-    let mut previous = file.next().unwrap().parse::<u16>()?;
+    let mut lines = include_str!("../input/day01/input.txt").lines();
+    let mut previous = lines.next().unwrap().parse::<u16>()?;
     let mut larger_count:u16 = 0;
 
-    for line in file {
+    for line in lines {
         let line = line.parse::<u16>()?;
         if line > previous {
             larger_count += 1;
@@ -31,7 +31,7 @@ pub fn day01_part01() -> Result<()> {
 
 
 pub fn day01_part02() -> Result<()> {
-    let file = include_str!("../input/day01/input01.txt").lines();
+    let file = include_str!("../input/day01/input.txt").lines();
 
     
     let mut queue = FixSizeQueue::<u16, {3 as usize}>::new();
@@ -59,7 +59,7 @@ pub fn day01_part02() -> Result<()> {
 }
 
 pub fn day01_part02_bis() -> Result<()> {
-    let file = include_str!("../input/day01/input01.txt").lines();
+    let file = include_str!("../input/day01/input.txt").lines();
 
     let larger_count = file
     .map(|line| line.parse::<u16>().unwrap())

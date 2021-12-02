@@ -1,8 +1,11 @@
 #![feature(array_windows)]
 mod day01;
+mod day02;
 use anyhow::Result;
-use crate::day01::day01;
+
+
 fn main() -> Result<()> {
-    day01()?;
+    //day01::run()?;
+    day02::run()?;
     Ok(())
 }
