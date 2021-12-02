@@ -1,4 +1,3 @@
-
 use std::{collections::VecDeque, iter::Sum};
 
 use anyhow::Result;
@@ -6,6 +5,7 @@ use anyhow::Result;
 pub fn day01() -> Result<()> {
     day01_part01()?;
     day01_part02()?;
+    day01_part02_bis()?;
     Ok(())
 }
 
@@ -54,6 +54,25 @@ pub fn day01_part02() -> Result<()> {
     }
 
     println!("How many measurements are larger than the previous measurement - part2 ? {}", larger_count);
+
+    Ok(())
+}
+
+pub fn day01_part02_bis() -> Result<()> {
+    let file = include_str!("../input/day01/input01.txt").lines();
+
+    let larger_count = file
+    .map(|line| line.parse::<u16>().unwrap())
+    .collect::<Vec<u16>>()
+    .array_windows()
+    .map(|[a, b, c]| a + b + c)
+    .collect::<Vec<u16>>()
+    .array_windows()
+    .filter(|[a, b]| a < b )
+    .count();
+    
+
+    println!("How many measurements are larger than the previous measurement - part2 bis ? {}", larger_count);
 
     Ok(())
 }
