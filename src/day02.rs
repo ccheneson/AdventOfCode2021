@@ -72,7 +72,7 @@ mod part01 {
                     acc
                 });
 
-        println!("{:?}", tracker.result());
+        println!("What do you get if you multiply your final horizontal position by your final depth? {:?}", tracker.result());
 
         Ok(())
     }
@@ -153,7 +153,7 @@ mod part02 {
                     acc
                 });
 
-        println!("{:?}", tracker.result());
+        println!("What do you get if you multiply your final horizontal position by your final depth? {:?}", tracker.result());
 
         Ok(())
     }

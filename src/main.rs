@@ -5,7 +5,7 @@ use anyhow::Result;
 
 
 fn main() -> Result<()> {
-    //day01::run()?;
+    day01::run()?;
     day02::run()?;
     Ok(())
 }
