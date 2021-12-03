@@ -92,17 +92,9 @@ mod part02 {
 
     pub fn run() -> Result<()> {
         let lines = include_str!("../input/day03/input.txt");
-        let lines :Vec<Vec<&str>> = lines.lines().map(tokenize).collect();
-        let count_line = lines.len();
+        let lines :Vec<Vec<&str>> = lines.lines().map(tokenize).collect();        
         let count_row = lines.get(0).unwrap().len();
-        let mut switch_col_row : Vec<Vec<&str>>= vec![vec!["0";count_line]; count_row] ;
         
-        for (i, line) in lines.iter().enumerate() {
-            for (j, value) in line.into_iter().enumerate() {
-                switch_col_row[j][i] = value;
-            }
-        }
-
         let oxygen_generator = |z : Zeros, o: Ones| if o.0 >= z.0 { "1" } else { "0" };
         let co2_scrubber = |z : Zeros, o: Ones| if o.0 >= z.0 { "0" } else { "1" };
 
