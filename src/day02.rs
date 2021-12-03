@@ -4,7 +4,7 @@ use anyhow::Result;
 pub fn run() -> Result<()> {
     part01::run()?;
     part02::run()?;
-    part02::run_bis();
+    part02::run_bis()?;
     Ok(())
 }
 
