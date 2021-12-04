@@ -33,10 +33,10 @@ mod part01 {
     fn check_boards(draw: u8, boards: &mut Vec<Board>) {
         boards
             .iter_mut()
-            .for_each(|board|
+            .for_each(|board|   //For all Boards
                 board
                     .iter_mut()
-                    .for_each(|boardboxes|
+                    .for_each(|boardboxes|  //For each rows of 1 board
                         boardboxes
                             .iter_mut()                            
                             .for_each(|boardbox | {
@@ -89,7 +89,7 @@ mod part01 {
                 continue;
             }
      
-            let mut new_board: Vec<_> = vec!();     
+            let mut new_board: Vec<_> = vec!();
 
             for _ in 0..5 {
                 let board_row: Vec<BoardBox> = line
@@ -227,32 +227,31 @@ mod part02 {
         }
 
         //----- Let play now !!!
-        let mut last_sum : u32 = 0;
         let mut last_drawn_number : u8 = 0;
+        let mut last_board: Board = vec!();
+
         for draw_number in input_numbers {
             check_boards(draw_number, playing_boards.borrow_mut());
 
             //Here we need to remove the winning boards and we could also have several winning boards for 1 drawn number
-            while let Some((index, winner)) = verify_winner(&playing_boards) {
-                let sum_unticked : u32 = 
-                    winner
-                        .into_iter()
-                        .flat_map(|e|
-                            e.into_iter()
-                            .filter(|boardbox| !boardbox.is_ticked())
-                            .map(|e|e.number as u32)
-                            .collect::<Vec<u32>>()
-                        )
-                        .sum();
-                playing_boards.remove(index);
-                last_sum = sum_unticked;
+            while let Some((index, _)) = verify_winner(&playing_boards) {
+                //Discard the winning board
+                last_board = playing_boards.remove(index);
                 last_drawn_number = draw_number;
-                
             }
         }
-        println!("What will your final score be if you choose that board - part 2 ? {}", last_sum * last_drawn_number as u32);
-        
 
+        let sum_unticked : u32 = last_board
+                                    .iter()
+                                    .flat_map(|e|
+                                        e.iter()
+                                        .filter(|boardbox| ! boardbox.is_ticked())
+                                        .map(|e|e.number as u32)
+                                        .collect::<Vec<u32>>()
+                                    )
+                                    .sum();
+
+        println!("What will your final score be if you choose that board - part 2 ? {}", sum_unticked * last_drawn_number as u32);
         Ok(())
     }
 }
