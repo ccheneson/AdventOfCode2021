@@ -11,7 +11,7 @@ mod part01 {
     use anyhow::Result;
 
     pub fn run() -> Result<()> {
-        let mut lines = include_str!("../input/day01/input.txt").lines();
+        let mut lines = include_str!("../input/day01.txt").lines();
         let mut previous = lines.next().unwrap().parse::<u16>()?;
         let mut larger_count: u16 = 0;
 
@@ -38,7 +38,7 @@ mod part02 {
 
 
     pub fn run() -> Result<()> {
-        let file = include_str!("../input/day01/input.txt").lines();
+        let file = include_str!("../input/day01.txt").lines();
 
         let mut queue = FixSizeQueue::<u16, { 3 as usize }>::new();
         let mut previous: Option<u16> = None;
@@ -70,7 +70,7 @@ mod part02 {
     // I discovered the array_windows function
     // and wanted to use it here for reference
     pub fn run_bis() -> Result<()> {
-        let file = include_str!("../input/day01/input.txt").lines();
+        let file = include_str!("../input/day01.txt").lines();
 
         let larger_count = file
             .map(|line| line.parse::<u16>().unwrap())

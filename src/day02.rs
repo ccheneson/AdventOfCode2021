@@ -65,7 +65,7 @@ mod part01 {
     }
 
     pub fn run() -> Result<()> {
-        let lines = include_str!("../input/day02/input.txt").lines();
+        let lines = include_str!("../input/day02.txt").lines();
 
         let tracker =
             lines
@@ -127,7 +127,7 @@ mod part02 {
     }
 
     pub fn run() -> Result<()> {
-        let lines = include_str!("../input/day02/input.txt").lines();
+        let lines = include_str!("../input/day02.txt").lines();
 
         let tracker =
             lines
@@ -155,7 +155,7 @@ mod part02 {
         }
 
 
-        let lines = include_str!("../input/day02/input.txt").lines();
+        let lines = include_str!("../input/day02.txt").lines();
 
         //accumulator is tuple3( position, depth, aim)
         let tracker =

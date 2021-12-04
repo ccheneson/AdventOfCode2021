@@ -33,7 +33,7 @@ mod part01 {
     }
 
     pub fn run() -> Result<()> {
-        let lines = include_str!("../input/day03/input.txt").lines();
+        let lines = include_str!("../input/day03.txt").lines();
         let lines :Vec<Vec<&str>> = lines.map(tokenize).collect();
         let count_line = lines.len();
         let count_row = lines.get(0).unwrap().len();
@@ -91,7 +91,7 @@ mod part02 {
     }
 
     pub fn run() -> Result<()> {
-        let lines = include_str!("../input/day03/input.txt");
+        let lines = include_str!("../input/day03.txt");
         let lines :Vec<Vec<&str>> = lines.lines().map(tokenize).collect();        
         let count_row = lines.get(0).unwrap().len();
         
