@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 anyhow = { version = "1.0.47" }
+itertools = "0.10.1"
