@@ -65,7 +65,6 @@ mod part02 {
     use anyhow::Result;
 
     
-    #[derive(PartialEq, Eq, Hash, Debug)]
     struct LanternFish(u8, usize);
 
     impl LanternFish {
@@ -89,10 +88,10 @@ mod part02 {
     }
 
 
-    //The problem with thsi challenge (part2) is about performance
-    //Using solution part1, we inject in the lantern_fishes the lanternfishes newly-created,
+    //The problem with this challenge (part2) is about performance
+    //Using solution part1, we inject the newly-created LanternFish(es) in the lantern_fishes,
     //which makes the lantern_fishes to grow very quickly
-    //Instead I added an occurence field so that we inject 1 struct reference the number(count) of that object
+    //Instead I added an occurence field so that we inject 1 struct reference with the number/count/occurence of that object
     //
     //LanternFish(8),LanternFish(8),LanternFish(8),LanternFish(8)
     // should be translated to
