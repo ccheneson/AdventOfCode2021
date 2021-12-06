@@ -1,8 +1,11 @@
 use anyhow::Result;
 
 pub fn run() -> Result<()> {
-    part01::run()?;
-    part02::run()?;
+    let file = include_str!("../input/day06.txt");
+
+    part01::run(file)?;
+    part02::run(file)?;
+
     Ok(())
 }
 
@@ -33,8 +36,7 @@ mod part01 {
             }
         }
     }
-    pub fn run() -> Result<()> {
-        let file = include_str!("../input/day06.txt");
+    pub fn run(file: &str) -> Result<usize> {        
 
         let mut lantern_fishes = 
             file.lines()
@@ -57,7 +59,7 @@ mod part01 {
         println!("How many lanternfish would there be after 80 days? {}", lantern_fishes.len());
 
         
-        Ok(())
+        Ok(lantern_fishes.len())
     }
 }
 
@@ -72,12 +74,14 @@ mod part02 {
         fn occurence(&self) -> usize   { self.1 }
         fn reset_timer(&mut self)  { self.0  = 6 }
         fn decrease_timer(&mut self)  { if self.0  != 0 { self.0 -= 1 } }
+        fn create_new_fish(occurence: usize) -> Self { Self(8, occurence) }
 
-        fn check_after_one_day(&mut self) -> Option<usize> {
+
+        fn check_after_one_day(&mut self) -> Option<Self> {
             match self.timer() {
                 0 => {
                     self.reset_timer();
-                    Some(self.occurence())
+                    Some(Self::create_new_fish(self.occurence()))
                 },
                 _ => {
                     self.decrease_timer();
@@ -95,10 +99,9 @@ mod part02 {
     //
     //LanternFish(8),LanternFish(8),LanternFish(8),LanternFish(8)
     // should be translated to
-    //LanternFish(8, 3)
+    //LanternFish(8, 4)
     //
-    pub fn run() -> Result<()> {
-        let file = include_str!("../input/day06.txt");
+    pub fn run(file: &str) -> Result<usize> {
 
         let mut lantern_fishes = 
             file.lines()
@@ -107,33 +110,33 @@ mod part02 {
                 .map(|e|LanternFish(e,1))
                 .collect::<Vec<LanternFish>>();
 
-
-        //Initialize fishes_count with the fish parents already in the input file
-        let mut fishes_count = lantern_fishes.len();
-
         for _ in 0..256 {
-            let new_fishes = 
+            let count_new_fish8 : usize = 
                 lantern_fishes
                     .iter_mut()
                     .map(|fish| fish.check_after_one_day())
                     .filter(|fish|fish.is_some())
-                    .map(|fish|fish.unwrap())
-                    .collect::<Vec<usize>>();
+                    .map(|fish|fish.unwrap().1)
+                    .sum();
 
-                let new_fish_count:usize = new_fishes.iter().sum();
-
-                if ! new_fishes.is_empty() {
-                    fishes_count += new_fish_count;
-                }
-
-                lantern_fishes.push(LanternFish(8, new_fish_count));
+                lantern_fishes.push(LanternFish(8, count_new_fish8));
         
          }
+ 
+         let fishes_count = lantern_fishes.into_iter().map(|f|f.1).sum::<usize>();
+         println!("How many lanternfish would there be after 256 days? {:?}", fishes_count);
 
         
-         println!("How many lanternfish would there be after 256 days? {:?}", fishes_count);
- 
-        
-        Ok(())
+        Ok(fishes_count)
     }
+}
+
+
+#[test]
+fn test() {
+   let input = "3,4,3,1,2";
+
+   assert_eq!(part01::run(input).unwrap(), 5934);
+   assert_eq!(part02::run(input).unwrap(), 26984457539);
+   
 }

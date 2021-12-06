@@ -2,9 +2,13 @@ use anyhow::Result;
 
 
 pub fn run() -> Result<()> {
-    part01::run()?;
-    part02::run()?;
-    part02::run_bis()?;
+    let lines = include_str!("../input/day02.txt");
+
+
+    part01::run(lines)?;
+    part02::run(lines)?;
+    part02::run_bis(lines)?;
+
     Ok(())
 }
 
@@ -64,8 +68,8 @@ mod part01 {
         }
     }
 
-    pub fn run() -> Result<()> {
-        let lines = include_str!("../input/day02.txt").lines();
+    pub fn run(file: &str) -> Result<u32> {
+        let lines = file.lines();
 
         let tracker =
             lines
@@ -80,7 +84,7 @@ mod part01 {
 
         println!("What do you get if you multiply your final horizontal position by your final depth? {:?}", tracker.result());
 
-        Ok(())
+        Ok(tracker.result())
     }
 }
 
@@ -126,8 +130,8 @@ mod part02 {
         }
     }
 
-    pub fn run() -> Result<()> {
-        let lines = include_str!("../input/day02.txt").lines();
+    pub fn run(file: &str) -> Result<u32> {
+        let lines = file.lines();
 
         let tracker =
             lines
@@ -142,20 +146,20 @@ mod part02 {
 
         println!("What do you get if you multiply your final horizontal position by your final depth? {:?}", tracker.result());
 
-        Ok(())
+        Ok(tracker.result())
     }
 
 
     // This is another implementation without any struct to manage the calculation
     // It also demonstrates the pattern matching with slice
-    pub fn run_bis() -> Result<()> {
+    pub fn run_bis(file: &str) -> Result<u32> {
 
         fn parse(line: &str) -> Vec<&str> {
             line.split_whitespace().collect()
         }
 
 
-        let lines = include_str!("../input/day02.txt").lines();
+        let lines = file.lines();
 
         //accumulator is tuple3( position, depth, aim)
         let tracker =
@@ -174,6 +178,23 @@ mod part02 {
 
         println!("What do you get if you multiply your final horizontal position by your final depth - part2 bis ? {:?}", tracker.0 * tracker.1);
 
-        Ok(())
+        Ok((tracker.0 * tracker.1) as u32)
     }
+}
+
+
+#[test]
+fn test() {
+   let input = r#"forward 5
+down 5
+forward 8
+up 3
+down 8
+forward 2
+"#;
+
+   assert_eq!(part01::run(input).unwrap(), 150);
+   assert_eq!(part02::run(input).unwrap(), 900);
+   assert_eq!(part02::run_bis(input).unwrap(), 900);
+   
 }

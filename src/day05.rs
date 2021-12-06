@@ -1,8 +1,10 @@
 use anyhow::Result;
 
 pub fn run() -> Result<()> {
-    part01::run()?;
-    part02::run()?;
+    let file = include_str!("../input/day05.txt");
+
+    part01::run(file)?;
+    part02::run(file)?;
     Ok(())
 }
 
@@ -77,8 +79,7 @@ mod part01 {
         Lines { start: Coordinates::from_slice(start) , end: Coordinates::from_slice(end)  }        
     }
 
-    pub fn run() -> Result<()> {
-        let file = include_str!("../input/day05.txt");
+    pub fn run(file: &str) -> Result<usize> {
         let lines: Vec<Lines> = file.lines().map(|line| parse_line_to_coordinates(line)).collect();
         let covered_points: Vec<Coordinates> = 
             lines.into_iter().flat_map(|e| e.points_covered()).collect();
@@ -88,7 +89,7 @@ mod part01 {
 
         println!("At how many points do at least two lines overlap? {}", total);
         
-        Ok(())
+        Ok(total)
     }
 
     #[test]
@@ -219,8 +220,7 @@ mod part02 {
         Lines { start: Coordinates::from_slice(start) , end: Coordinates::from_slice(end)  }        
     }
 
-    pub fn run() -> Result<()> {
-        let file = include_str!("../input/day05.txt");
+    pub fn run(file: &str) -> Result<usize> {        
         let lines: Vec<Lines> = file.lines().map(|line| parse_line_to_coordinates(line)).collect();
         let covered_points: Vec<Coordinates> = 
             lines.into_iter().flat_map(|e| e.points_covered()).collect();
@@ -230,7 +230,7 @@ mod part02 {
 
         println!("At how many points do at least two lines overlap? {}", total);
         
-        Ok(())
+        Ok(total)
     }
 
 
@@ -265,4 +265,24 @@ mod part02 {
     }
 
 
+}
+
+
+#[test]
+fn test() {
+   let input = r#"0,9 -> 5,9
+8,0 -> 0,8
+9,4 -> 3,4
+2,2 -> 2,1
+7,0 -> 7,4
+6,4 -> 2,0
+0,9 -> 2,9
+3,4 -> 1,4
+0,0 -> 8,8
+5,5 -> 8,2
+"#;
+
+   assert_eq!(part01::run(input).unwrap(), 5);
+   assert_eq!(part02::run(input).unwrap(), 12);
+   
 }

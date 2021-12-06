@@ -1,8 +1,10 @@
 use anyhow::Result;
 
 pub fn run() -> Result<()> {
-    part01::run()?;
-    part02::run()?;    
+    let file = include_str!("../input/day03.txt");
+
+    part01::run(file)?;
+    part02::run(file)?;    
     Ok(())
 }
 
@@ -32,8 +34,8 @@ mod part01 {
         isize::from_str_radix(&input.join("").to_string(), 2).unwrap()
     }
 
-    pub fn run() -> Result<()> {
-        let lines = include_str!("../input/day03.txt").lines();
+    pub fn run(file: &str) -> Result<isize> {
+        let lines = file.lines();
         let lines :Vec<Vec<&str>> = lines.map(tokenize).collect();
         let count_line = lines.len();
         let count_row = lines.get(0).unwrap().len();
@@ -55,7 +57,7 @@ mod part01 {
 
         println!("What is the power consumption of the submarine? {}", gama_dec * epsilon_dec);
 
-        Ok(())
+        Ok(gama_dec * epsilon_dec)
     }
 
     
@@ -90,9 +92,9 @@ mod part02 {
         isize::from_str_radix(&input.to_string(), 2).unwrap()
     }
 
-    pub fn run() -> Result<()> {
-        let lines = include_str!("../input/day03.txt");
-        let lines :Vec<Vec<&str>> = lines.lines().map(tokenize).collect();        
+    pub fn run(file: &str) -> Result<isize> {
+        let lines = file.lines();
+        let lines :Vec<Vec<&str>> = lines.map(tokenize).collect();        
         let count_row = lines.get(0).unwrap().len();
         
         let oxygen_generator = |z : Zeros, o: Ones| if o.0 >= z.0 { "1" } else { "0" };
@@ -117,13 +119,34 @@ mod part02 {
 
         }
 
-        println!(
-            "What is the life support rating of the submarine? {}", 
-            binary_rep_to_dec(base_ogr[0].join("").as_str()) * binary_rep_to_dec(base_csr[0].join("").as_str())
-        );
+        let rating = binary_rep_to_dec(base_ogr[0].join("").as_str()) * binary_rep_to_dec(base_csr[0].join("").as_str());
 
-        Ok(())
+        println!("What is the life support rating of the submarine? {}", rating);
+
+        Ok(rating)
     }
 
     
+}
+
+
+#[test]
+fn test() {
+   let input = r#"00100
+11110
+10110
+10111
+10101
+01111
+00111
+11100
+10000
+11001
+00010
+01010
+"#;
+
+   assert_eq!(part01::run(input).unwrap(), 198);
+   assert_eq!(part02::run(input).unwrap(), 230);
+   
 }

@@ -1,19 +1,22 @@
 use anyhow::Result;
 
 pub fn run() -> Result<()> {
-    part01::run()?;
-    part02::run()?;
-    part02::run_bis()?;
+    let file = include_str!("../input/day01.txt");
+
+    part01::run(file)?;
+    part02::run(file)?;
+    part02::run_bis(file)?;
+
     Ok(())
 }
 
 mod part01 {
     use anyhow::Result;
 
-    pub fn run() -> Result<()> {
-        let mut lines = include_str!("../input/day01.txt").lines();
+    pub fn run(file: &str) -> Result<usize> {
+        let mut lines = file.lines();
         let mut previous = lines.next().unwrap().parse::<u16>()?;
-        let mut larger_count: u16 = 0;
+        let mut larger_count: usize = 0;
 
         for line in lines {
             let line = line.parse::<u16>()?;
@@ -28,7 +31,7 @@ mod part01 {
             larger_count
         );
 
-        Ok(())
+        Ok(larger_count)
     }
 }
 
@@ -37,12 +40,12 @@ mod part02 {
     use std::{collections::VecDeque, iter::Sum};
 
 
-    pub fn run() -> Result<()> {
-        let file = include_str!("../input/day01.txt").lines();
+    pub fn run(file: &str) -> Result<usize> {
+        let file = file.lines();
 
         let mut queue = FixSizeQueue::<u16, { 3 as usize }>::new();
         let mut previous: Option<u16> = None;
-        let mut larger_count = 0;
+        let mut larger_count: usize = 0;
 
         for line in file {
             let line = line.parse::<u16>()?;
@@ -64,13 +67,13 @@ mod part02 {
             larger_count
         );
 
-        Ok(())
+        Ok(larger_count)
     }
 
     // I discovered the array_windows function
     // and wanted to use it here for reference
-    pub fn run_bis() -> Result<()> {
-        let file = include_str!("../input/day01.txt").lines();
+    pub fn run_bis(file: &str) -> Result<usize> {
+        let file = file.lines();
 
         let larger_count = file
             .map(|line| line.parse::<u16>().unwrap())
@@ -87,7 +90,7 @@ mod part02 {
             larger_count
         );
 
-        Ok(())
+        Ok(larger_count)
     }
 
     struct FixSizeQueue<T, const N: usize> {
@@ -116,4 +119,23 @@ mod part02 {
             }
         }
     }
+}
+
+#[test]
+fn test() {
+   let input = r#"199
+200
+208
+210
+200
+207
+240
+269
+260
+263"#;
+
+   assert_eq!(part01::run(input).unwrap(), 7);
+   assert_eq!(part02::run(input).unwrap(), 5);
+   assert_eq!(part02::run_bis(input).unwrap(), 5);
+   
 }

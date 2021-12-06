@@ -1,8 +1,10 @@
 use anyhow::Result;
 
 pub fn run() -> Result<()> {
-    part01::run()?;
-    part02::run()?;    
+    let file = include_str!("../input/day04.txt");
+
+    part01::run(file)?;
+    part02::run(file)?;    
     Ok(())
 }
 
@@ -75,8 +77,7 @@ mod part01 {
         result
     }
 
-    pub fn run() -> Result<()> {
-        let file = include_str!("../input/day04.txt");
+    pub fn run(file: &str) -> Result<u32> {
         let mut lines_it = file.lines();
 
         let input_numbers : Vec<u8> = lines_it.next().unwrap().split(",").map(|e| e.parse::<u8>().unwrap()).collect();
@@ -107,6 +108,9 @@ mod part01 {
             playing_boards.push(new_board);
         }
 
+
+        let mut result: u32 = 0;
+
         //----- Let play now !!!
         for draw_number in input_numbers {
             check_boards(draw_number, playing_boards.borrow_mut());            
@@ -122,12 +126,14 @@ mod part01 {
                         )
                         .sum();
                 
-                println!("What will your final score be if you choose that board? {}", sum_unticked * draw_number as u32);
+                result =  sum_unticked * draw_number as u32;
+                
+                println!("What will your final score be if you choose that board? {}", result);
                 break;
             }
         }
 
-        Ok(())
+        Ok(result)
     }
 
     
@@ -194,8 +200,7 @@ mod part02 {
         result.map(|b| (index_board, b))
     }
 
-    pub fn run() -> Result<()> {
-        let file = include_str!("../input/day04.txt");
+    pub fn run(file: &str) -> Result<u32> {
         let mut lines_it = file.lines();
 
         let input_numbers : Vec<u8> = lines_it.next().unwrap().split(",").map(|e| e.parse::<u8>().unwrap()).collect();
@@ -251,7 +256,38 @@ mod part02 {
                                     )
                                     .sum();
 
-        println!("What will your final score be if you choose that board - part 2 ? {}", sum_unticked * last_drawn_number as u32);
-        Ok(())
+        let result = sum_unticked * last_drawn_number as u32;
+
+        println!("What will your final score be if you choose that board - part 2 ? {}", result);
+        Ok(result)
     }
+}
+
+
+#[test]
+fn test() {
+   let input = r#"7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
+
+22 13 17 11  0
+8  2 23  4 24
+21  9 14 16  7
+6 10  3 18  5
+1 12 20 15 19
+
+3 15  0  2 22
+9 18 13 17  5
+19  8  7 25 23
+20 11 10 24  4
+14 21 16 12  6
+
+14 21 17 24  4
+10 16 15  9 19
+18  8 23 26 20
+22 11 13  6  5
+2  0 12  3  7
+"#;
+
+   assert_eq!(part01::run(input).unwrap(), 4512);
+   assert_eq!(part02::run(input).unwrap(), 1924);
+   
 }
