@@ -10,3 +10,5 @@ What will your final score be if you choose that board? 58838
 What will your final score be if you choose that board - part 2 ? 6256
 At how many points do at least two lines overlap? 7436
 At how many points do at least two lines overlap? 21104
+How many lanternfish would there be after 80 days? 360761
+How many lanternfish would there be after 256 days? 1632779838045
