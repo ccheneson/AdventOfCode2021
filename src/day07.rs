@@ -129,5 +129,6 @@ fn test() {
 
    assert_eq!(part01::run(input).unwrap(), 37);
    assert_eq!(part02::run(input).unwrap(), 168);
+   assert_eq!(part02::run_bis(input).unwrap(), 168);
    
 }
