@@ -36,7 +36,7 @@ pub fn run() -> Result<()> {
     let file = include_str!("../input/day09.txt");
 
     part01::run(file)?;
-    //part02::run(file)?;
+    part02::run(file)?;
 
     Ok(())
 }
