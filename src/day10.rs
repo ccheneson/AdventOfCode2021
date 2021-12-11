@@ -119,6 +119,8 @@ mod part01 {
         assert_eq!(check_corruption(input.get(3).unwrap().to_vec()), Some((">", ")")));
         assert_eq!(check_corruption(input.get(4).unwrap().to_vec()), Some(("]", ">")));
         assert_eq!(check_corruption(input.get(5).unwrap().to_vec()), None);
+
+        assert_eq!(run(file).unwrap(), 26397);
     }
 
 
@@ -280,6 +282,7 @@ mod part02 {
         assert_eq!(check_corruption(input.get(3).unwrap().to_vec()), Some((">", ")")));
         assert_eq!(check_corruption(input.get(4).unwrap().to_vec()), Some(("]", ">")));
         assert_eq!(check_corruption(input.get(5).unwrap().to_vec()), None);
+
     }
 
     #[test]
@@ -305,6 +308,9 @@ mod part02 {
     assert_eq!(complete_closing_chars(input.get(2).unwrap().to_vec()).join(""), "}}>}>))))");
     assert_eq!(complete_closing_chars(input.get(3).unwrap().to_vec()).join(""), "]]}}]}]}>");
     assert_eq!(complete_closing_chars(input.get(4).unwrap().to_vec()).join(""), "])}>");
+
+    assert_eq!(run(file).unwrap(), 288957);
+
 
     }
 

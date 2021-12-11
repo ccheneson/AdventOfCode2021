@@ -13,6 +13,9 @@ mod part01 {
     use std::collections::HashMap;
     use anyhow::Result;
     use itertools::Itertools;
+
+    use crate::day09::part01;
+    
     struct HeightMap<'a> {
         map: &'a HashMap<(usize, usize), i8>,
         max_x: usize,
@@ -138,21 +141,21 @@ mod part01 {
         assert_eq!(sort(m.get_adjacent_points(5, 4)), sort(vec!(9,9,5)));
 
         assert_eq!(sort(m.get_adjacent_points(5, 0)), sort(vec!(9,9,3)));
+
+        assert_eq!(part01::run(file).unwrap(), 15);
         
         fn sort(v: Vec<i8>) -> Vec<i8> {
             v.into_iter().sorted().collect::<Vec<i8>>()
         }
     }
-
-
-
-
 }
 
 mod part02 {
     use std::collections::HashMap;
     use anyhow::Result;
     use itertools::Itertools;
+
+    use crate::day09::part02;
     struct HeightMap<'a> {
         map: &'a HashMap<(usize, usize), i8>,
         max_x: usize,
@@ -207,7 +210,7 @@ mod part02 {
         }
     }
 
-    pub fn run(file: &str) -> Result<i16> {
+    pub fn run(file: &str) -> Result<u32> {
 
         let input : Vec<Vec<i8>> = 
             file.lines().into_iter()
@@ -259,7 +262,7 @@ mod part02 {
         
         println!("What do you get if you multiply together the sizes of the three largest basins? {:?}", result);
 
-        Ok(0)
+        Ok(result)
     }
 
 
@@ -299,6 +302,7 @@ mod part02 {
         assert_eq!(sort(m.check_basin_size(0, 0)), sort(vec!(1,2,3)));
         assert_eq!(sort(m.check_basin_size(9, 0)), sort(vec!(0,1,2,3,4,4,2,1,2)));
         assert_eq!(sort(m.check_basin_size(2, 2)), sort(vec!(8,7,8,8,5,6,7,8,8,7,6,7,8,8)));
+        assert_eq!(part02::run(file).unwrap(), 1134);
         
         fn sort(v: Vec<i8>) -> Vec<i8> {
             v.into_iter().sorted().collect::<Vec<i8>>()

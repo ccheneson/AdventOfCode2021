@@ -206,7 +206,7 @@ mod part02 {
 
         println!("What do you get if you add up all of the output values {:?}", final_result);
 
-        Ok(0)
+        Ok(final_result)
     }
 
     pub fn diff<'a>(v1: &'a str, v2: &'a str) -> String {
@@ -257,4 +257,6 @@ gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
     assert_eq!(part02::concat("abc", "def"), "abcdef".to_string());
     assert_eq!(part02::contain("abced", "cd"), true);
     assert_eq!(part02::contain("bcdef", "bde"), true);
+    assert_eq!(part01::run(input).unwrap(), 26);
+    assert_eq!(part02::run(input).unwrap(), 61229);
 }

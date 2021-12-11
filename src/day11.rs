@@ -195,6 +195,24 @@ mod part01 {
         Ok(result)
     }
 
+
+    #[test]
+    fn test() {
+        let file ="5483143223
+2745854711
+5264556173
+6141336146
+6357385478
+4167524645
+2176841721
+6882881134
+4846848554
+5283751526";
+
+    assert_eq!(run(file).unwrap(), 1656);
+
+    }
+
 }
 
 mod part02 {
@@ -373,6 +391,24 @@ mod part02 {
         
         println!("What is the first step during which all octopuses flash? {}", counter);
         Ok(counter)
+    }
+
+
+    #[test]
+    fn test() {
+        let file ="5483143223
+2745854711
+5264556173
+6141336146
+6357385478
+4167524645
+2176841721
+6882881134
+4846848554
+5283751526";
+
+    assert_eq!(run(file).unwrap(), 195);
+
     }
 
 }
