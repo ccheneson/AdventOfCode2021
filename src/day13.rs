@@ -24,6 +24,7 @@ pub enum Fold {
 }
 
 #[derive(Debug)]
+//Should have used a HashSet<XY> instead of Vec<XY> not to worry about duplicates during folds
 pub struct Coordinates(Vec<XY>);
 impl Coordinates {
     fn length_y(&self) -> usize { self.0.iter().unique().map(|e|e.1).max().unwrap() as usize + 1}
