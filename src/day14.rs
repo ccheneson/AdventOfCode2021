@@ -111,3 +111,127 @@ CN -> C";
     }
 }
 
+// mod part02 {
+    
+//     use std::collections::{HashMap, BTreeMap, VecDeque};
+
+//     use anyhow::Result;
+//     use itertools::Itertools;
+
+//     pub fn parse(file: &str) -> (Vec<&str>, Vec<(&str, &str)>) {
+//         let mut poly_template : Vec<&str> = vec!();
+//         let mut rules : Vec<(&str, &str)> = vec!();
+//         file.lines().into_iter().for_each(|e| {
+//             if e.contains("->") {
+//                 let tokens = e.split("->")
+//                                         .map(|e| e.trim()).collect::<Vec<&str>>();
+//                 //let c : Vec<&str> = tokens[0].split("").filter(|e| !e.is_empty()).collect();
+//                 rules.push((tokens[0], tokens[1]));
+//             }
+//             else if e.is_empty() {
+//             } else {
+//                 poly_template = e.split("").filter(|e|!e.is_empty()).collect();
+//             }
+//         });
+//         (poly_template, rules)
+//     }
+
+
+
+//     pub fn run(file: &str) -> Result<usize> {
+    
+//         let (template, rules) = parse(file);
+
+//         let m : HashMap<&str, &str> = rules.into_iter().collect();
+//         let mut template_it = template.into_iter();
+//         let template_first_char = template_it.next().unwrap();
+
+//         let mut tracker : HashMap<String, u16> = HashMap::new();
+
+
+//         //----------------- Get initial map --------------------
+
+//         let (result, _left) = template_it.fold((vec!(), template_first_char.to_string()), |(mut acc, mut prev), elem| {
+//             prev.push_str( elem); 
+//             {
+//                 let value = m.get(prev.as_str());
+//                 if let Some(&v) = value {
+//                     *tracker.entry(prev.clone()).or_insert(0) += 1;
+//                     acc.push(prev);
+//                     acc.push(v.to_string());
+//                 }
+//             }
+//             (acc, elem.to_string())
+            
+//         });
+
+//         println!("Initial map {:?}", tracker);
+        
+//         //------------------------------------------------------
+
+//         for _ in 1..10 {
+//             tracker = process(tracker, &m);
+//         }
+
+//         println!("Tracker {:?}", tracker);
+
+
+//         //Stats to rules
+//         tracker = tracker.into_iter().map(|e| {
+//                 if let Some(&v) = m.get(e.0.as_str()) {
+//                     (v.to_string(), e.1)
+//                 } else {
+//                     e
+//                 }
+//         })
+//         .group_by(|e| e.0.clone())
+//         .into_iter()
+//         .map(|(key, items)| (key, items.map(|(e, value)| value).sum()))
+//         .collect();
+
+//         println!("Tracker {:?}", tracker);
+
+
+        
+
+
+//         //https://stackoverflow.com/questions/54936304/finding-most-frequently-occurring-string-in-a-structure-in-rust
+//         //Count number of occurence of each elemnts
+//         let mut counts = BTreeMap::new();
+//         for word in tracker.iter() {
+//             *counts.entry(word).or_insert(0) += 1;
+//         }
+
+//         let max = counts.iter().max_by_key(|&(_, count)| count).map(|e| e.1).unwrap();
+//         let min = counts.iter().min_by_key(|&(_, count)| count).map(|e| e.1).unwrap();
+
+//         let result = max - min;
+
+//         println!("What do you get if you take the quantity of the most common element and subtract the quantity of the least common element? {}", result);
+
+//         Ok(result)
+//     }
+
+
+    
+//     //{"CB": 1, "NN": 1, "NC": 1}
+//     fn process<'a>(input: HashMap<String, u16>, rules : &HashMap<&str, &str>) -> HashMap<String, u16> {
+
+//         let mut result = input.clone();
+
+//         input.into_iter().for_each(|e| {
+//             if let Some(v) = rules.get(e.0.as_str()) {   //get("CH")
+//                 let tokens : Vec<&str> = e.0.split("").filter(|e| !e.is_empty()).collect(); //["C","H"]                
+//                 let mut key01 = tokens[0].to_string();
+//                 key01.push_str(v);
+//                 let mut key02 = v.to_string();
+//                 key02.push_str(tokens[1]);
+//                 *result.entry(key01).or_insert(0) += 1;
+//                 *result.entry(key02).or_insert(0) += 1;
+//             }
+//         });
+
+//         result
+
+//     }
+
