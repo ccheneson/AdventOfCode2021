@@ -92,32 +92,66 @@ mod part02 {
         isize::from_str_radix(&input.to_string(), 2).unwrap()
     }
 
+
+    fn process<'a>(base: Vec<Vec<&'a str>>, index: usize, fnc : &dyn Fn(Zeros, Ones) -> &'static str) -> Vec<Vec<&'a str>> {
+        if base.len() == 1 {
+            base
+        } else {
+            let transpose = transpose(&base);
+            let flip_row = &transpose[index];
+            let rating = calculate_rating(flip_row, fnc);
+            let base : Vec<Vec<&str>> = base.into_iter().filter(|e|e[index] == rating).map(|e| e).collect();
+            process(base, index + 1, fnc)
+        }
+    }
+
+    fn transpose<'a>(base : &'a Vec<Vec<&str>>) -> Vec<Vec<&'a str>> {
+        let mut transpose: Vec<Vec<&str>> = vec!();
+
+        let count_rows = base.len();
+        let count_cols = base[count_rows - 1].len();
+
+        for j in 0..count_cols { 
+            let mut row = vec!();
+            for i in (0..count_rows).rev() { 
+                row.push(base[i][j]);
+            }
+            transpose.push(row);
+        }
+
+        transpose
+    }
+
     pub fn run(file: &str) -> Result<isize> {
         let lines = file.lines();
-        let lines :Vec<Vec<&str>> = lines.map(tokenize).collect();        
-        let count_row = lines.get(0).unwrap().len();
+        let lines :Vec<Vec<&str>> = lines.map(tokenize).collect();   
         
         let oxygen_generator = |z : Zeros, o: Ones| if o.0 >= z.0 { "1" } else { "0" };
         let co2_scrubber = |z : Zeros, o: Ones| if o.0 >= z.0 { "0" } else { "1" };
 
+        let base_ogr = process(lines.clone(),0, &oxygen_generator);
+        let base_csr = process(lines.clone(),0, &co2_scrubber);
 
-        let mut base_ogr: Vec<Vec<&str>> = lines.clone();
-        let mut base_csr: Vec<Vec<&str>> = lines.clone();
 
-        for i in 0..count_row {
-            if base_ogr.len() != 1 {
-                let bits_ogr : Vec<&str> = base_ogr.iter().map(|line| line[i]).collect();    
-                let rating_ogr = calculate_rating(&bits_ogr, oxygen_generator);
-                base_ogr = base_ogr.into_iter().filter(|e|e[i] == rating_ogr).collect();
-            }
+        // let mut base_test: Vec<Vec<&str>> = lines.clone();
 
-            if base_csr.len() != 1 {
-                let bits_csr : Vec<&str> = base_csr.iter().map(|line| line[i]).collect();            
-                let rating_csr = calculate_rating(&bits_csr, co2_scrubber);
-                base_csr = base_csr.into_iter().filter(|e|e[i] == rating_csr).collect();
-            }
 
-        }
+        // process(base_test,0, &oxygen_generator);
+
+        // for i in 0..count_row {
+        //     if base_ogr.len() != 1 {
+        //         let bits_ogr : Vec<&str> = base_ogr.iter().map(|line| line[i]).collect();    
+        //         let rating_ogr = calculate_rating(&bits_ogr, oxygen_generator);
+        //         base_ogr = base_ogr.into_iter().filter(|e|e[i] == rating_ogr).collect();
+        //     }
+
+        //     if base_csr.len() != 1 {
+        //         let bits_csr : Vec<&str> = base_csr.iter().map(|line| line[i]).collect();            
+        //         let rating_csr = calculate_rating(&bits_csr, co2_scrubber);
+        //         base_csr = base_csr.into_iter().filter(|e|e[i] == rating_csr).collect();
+        //     }
+
+        // }
 
         let rating = binary_rep_to_dec(base_ogr[0].join("").as_str()) * binary_rep_to_dec(base_csr[0].join("").as_str());
 
