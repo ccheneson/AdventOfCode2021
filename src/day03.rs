@@ -132,27 +132,6 @@ mod part02 {
         let base_ogr = process(lines.clone(),0, &oxygen_generator);
         let base_csr = process(lines.clone(),0, &co2_scrubber);
 
-
-        // let mut base_test: Vec<Vec<&str>> = lines.clone();
-
-
-        // process(base_test,0, &oxygen_generator);
-
-        // for i in 0..count_row {
-        //     if base_ogr.len() != 1 {
-        //         let bits_ogr : Vec<&str> = base_ogr.iter().map(|line| line[i]).collect();    
-        //         let rating_ogr = calculate_rating(&bits_ogr, oxygen_generator);
-        //         base_ogr = base_ogr.into_iter().filter(|e|e[i] == rating_ogr).collect();
-        //     }
-
-        //     if base_csr.len() != 1 {
-        //         let bits_csr : Vec<&str> = base_csr.iter().map(|line| line[i]).collect();            
-        //         let rating_csr = calculate_rating(&bits_csr, co2_scrubber);
-        //         base_csr = base_csr.into_iter().filter(|e|e[i] == rating_csr).collect();
-        //     }
-
-        // }
-
         let rating = binary_rep_to_dec(base_ogr[0].join("").as_str()) * binary_rep_to_dec(base_csr[0].join("").as_str());
 
         println!("What is the life support rating of the submarine? {}", rating);
