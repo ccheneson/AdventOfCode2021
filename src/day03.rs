@@ -100,7 +100,7 @@ mod part02 {
             let transpose = transpose(&base);
             let flip_row = &transpose[index];
             let rating = calculate_rating(flip_row, fnc);
-            let base : Vec<Vec<&str>> = base.into_iter().filter(|e|e[index] == rating).map(|e| e).collect();
+            let base : Vec<Vec<&str>> = base.into_iter().filter(|e|e[index] == rating).collect();
             process(base, index + 1, fnc)
         }
     }
